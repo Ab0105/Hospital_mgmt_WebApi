@@ -294,10 +294,10 @@ namespace Hospital_mgmt_WebApi.Model
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("FK__Outpatien__Docto__47DBAE45");
 
-                entity.HasOne(d => d.Lab)
-                    .WithMany(p => p.Outpatient)
-                    .HasForeignKey(d => d.LabId)
-                    .HasConstraintName("FK__Outpatien__Lab_i__48CFD27E");
+                //entity.HasOne(d => d.Lab)
+                //    .WithMany(p => p.Outpatient)
+                //    .HasForeignKey(d => d.LabId)
+                //    .HasConstraintName("FK__Outpatien__Lab_i__48CFD27E");
             });
 
             modelBuilder.Entity<Patient>(entity =>

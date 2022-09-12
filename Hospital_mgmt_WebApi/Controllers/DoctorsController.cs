@@ -70,7 +70,7 @@ namespace Hospital_mgmt_WebApi.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok("Updated");
         }
 
         // POST: api/Doctors

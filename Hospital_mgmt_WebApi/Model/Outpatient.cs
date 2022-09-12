@@ -14,7 +14,7 @@ namespace Hospital_mgmt_WebApi.Model
         public string DoctorId { get; set; }
         public string LabId { get; set; }
 
-        public virtual Doctor Doctor { get; set; }
-        public virtual Lab Lab { get; set; }
+        //public virtual Doctor Doctor { get; set; }
+        //public virtual Lab Lab { get; set; }
     }
 }
