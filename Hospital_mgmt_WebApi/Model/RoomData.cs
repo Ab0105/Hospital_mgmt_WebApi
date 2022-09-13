@@ -11,6 +11,7 @@ namespace Hospital_mgmt_WebApi.Model
     {
         public RoomData()
         {
+            //Appointment = new HashSet<Appointment>();
             //InPatient = new HashSet<InPatient>();
         }
 
@@ -21,6 +22,7 @@ namespace Hospital_mgmt_WebApi.Model
 
         //public virtual Doctor Doctor { get; set; }
         //public virtual Lab Lab { get; set; }
+        //public virtual ICollection<Appointment> Appointment { get; set; }
         //public virtual ICollection<InPatient> InPatient { get; set; }
     }
 }

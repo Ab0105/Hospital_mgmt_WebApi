@@ -41,15 +41,11 @@ namespace Hospital_mgmt_WebApi.Model
         {
             modelBuilder.Entity<Appointment>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.AppointmentId).HasColumnName("Appointment_Id");
 
                 entity.Property(e => e.AdmissionDate)
                     .HasColumnName("Admission Date")
                     .HasColumnType("date");
-
-                entity.Property(e => e.AppointmentId)
-                    .HasColumnName("Appointment_Id")
-                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.DateOfVisit)
                     .HasColumnName("Date of Visit")
@@ -78,14 +74,14 @@ namespace Hospital_mgmt_WebApi.Model
                     .IsUnicode(false);
 
                 //entity.HasOne(d => d.P)
-                //    .WithMany()
+                //    .WithMany(p => p.Appointment)
                 //    .HasForeignKey(d => d.Pid)
-                //    .HasConstraintName("FK__Appointment__Pid__17036CC0");
+                //    .HasConstraintName("FK__Appointment__Pid__29221CFB");
 
                 //entity.HasOne(d => d.RoomNoNavigation)
-                //    .WithMany()
+                //    .WithMany(p => p.Appointment)
                 //    .HasForeignKey(d => d.RoomNo)
-                //    .HasConstraintName("FK__Appointme__Room___17F790F9");
+                //    .HasConstraintName("FK__Appointme__Room___2A164134");
             });
 
             modelBuilder.Entity<BillData>(entity =>
