@@ -4,14 +4,16 @@ using Hospital_mgmt_WebApi.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hospital_mgmt_WebApi.Migrations
 {
     [DbContext(typeof(SprintOneTeam3Context))]
-    partial class SprintOneTeam3ContextModelSnapshot : ModelSnapshot
+    [Migration("20220912183446_fourth")]
+    partial class fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,15 +23,15 @@ namespace Hospital_mgmt_WebApi.Migrations
 
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.Appointment", b =>
                 {
-                    b.Property<DateTime?>("AdmissionDate")
-                        .HasColumnName("Admission Date")
-                        .HasColumnType("date");
-
                     b.Property<int>("AppointmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("Appointment_Id")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("AdmissionDate")
+                        .HasColumnName("Admission Date")
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("DateOfVisit")
                         .HasColumnName("Date of Visit")
@@ -40,12 +42,14 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("DoctorName")
+                        .IsRequired()
                         .HasColumnName("Doctor_Name")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("Pid")
+                        .IsRequired()
                         .HasColumnType("varchar(10)")
                         .HasMaxLength(10)
                         .IsUnicode(false);
@@ -56,57 +60,57 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .IsUnicode(false);
 
                     b.Property<string>("RoomNo")
+                        .IsRequired()
                         .HasColumnName("Room_No")
                         .HasColumnType("varchar(10)")
                         .HasMaxLength(10)
                         .IsUnicode(false);
 
+                    b.HasKey("AppointmentId");
+
                     b.HasIndex("Pid");
 
                     b.HasIndex("RoomNo");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("APPOINTMENT");
                 });
 
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.BillData", b =>
                 {
-                    b.Property<int>("BillNo")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("BillNo")
                         .HasColumnName("Bill_No")
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("varchar(1)")
+                        .HasMaxLength(1)
+                        .IsUnicode(false);
 
-                    b.Property<decimal>("DoctorFees")
+                    b.Property<int?>("DoctorFees")
                         .HasColumnName("Doctor_Fees")
-                        .HasColumnType("numeric(18, 0)");
+                        .HasColumnType("int");
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
-                        .HasColumnName("Doctor_Id")
+                        .HasColumnName("Doctor_id")
                         .HasColumnType("varchar(10)")
                         .HasMaxLength(10)
                         .IsUnicode(false);
 
-                    b.Property<decimal?>("LabFees")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int?>("LabFees")
                         .HasColumnName("Lab_Fees")
-                        .HasColumnType("numeric(18, 0)")
-                        .HasDefaultValueSql("((0))");
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("MedicineFees")
+                    b.Property<int?>("MedicineFees")
                         .HasColumnName("Medicine_Fees")
-                        .HasColumnType("numeric(18, 0)");
+                        .HasColumnType("int");
 
-                    b.Property<decimal?>("OperationCharges")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Operation_Charges")
-                        .HasColumnType("numeric(18, 0)")
-                        .HasDefaultValueSql("((0))");
+                    b.Property<int?>("OperationCharge")
+                        .HasColumnName("Operation_Charge")
+                        .HasColumnType("int");
 
                     b.Property<string>("PatientType")
+                        .IsRequired()
                         .HasColumnName("Patient_Type")
-                        .HasColumnType("varchar(10)")
-                        .HasMaxLength(10)
+                        .HasColumnType("varchar(1)")
+                        .HasMaxLength(1)
                         .IsUnicode(false);
 
                     b.Property<string>("Pid")
@@ -115,26 +119,20 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .HasMaxLength(10)
                         .IsUnicode(false);
 
-                    b.Property<decimal?>("RoomCharges")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Room_Charges")
-                        .HasColumnType("numeric(18, 0)")
-                        .HasDefaultValueSql("((0))");
+                    b.Property<int?>("RoomCharge")
+                        .HasColumnName("Room_Charge")
+                        .HasColumnType("int");
 
-                    b.Property<decimal?>("TotalAmount")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("Total_Amount")
-                        .HasColumnType("numeric(33, 0)")
-                        .HasComputedColumnSql("(((([Doctor_Fees]+[Room_Charges]*[Total_days])+[Operation_Charges])+[Medicine_Fees])+[Lab_Fees])");
+                    b.Property<int?>("TotalAmount")
+                        .HasColumnName("Total_amount")
+                        .HasColumnType("int");
 
                     b.Property<int?>("TotalDays")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("Total_days")
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("((0))");
+                        .HasColumnName("Total_Days")
+                        .HasColumnType("int");
 
                     b.HasKey("BillNo")
-                        .HasName("PK__Bill_Dat__CF6FA49F05935736");
+                        .HasName("PK__Bill_Dat__CF6FA49F09167DB9");
 
                     b.HasIndex("DoctorId");
 
@@ -245,9 +243,10 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("TestType")
+                        .IsRequired()
                         .HasColumnName("Test_Type")
-                        .HasColumnType("varchar(25)")
-                        .HasMaxLength(25)
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(10)
                         .IsUnicode(false);
 
                     b.HasKey("LabId");
@@ -376,14 +375,16 @@ namespace Hospital_mgmt_WebApi.Migrations
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.Appointment", b =>
                 {
                     b.HasOne("Hospital_mgmt_WebApi.Model.Patient", "P")
-                        .WithMany()
+                        .WithMany("Appointment")
                         .HasForeignKey("Pid")
-                        .HasConstraintName("FK__Appointment__Pid__17036CC0");
+                        .HasConstraintName("FK__APPOINTMENT__Pid__4E88ABD4")
+                        .IsRequired();
 
                     b.HasOne("Hospital_mgmt_WebApi.Model.RoomData", "RoomNoNavigation")
-                        .WithMany()
+                        .WithMany("Appointment")
                         .HasForeignKey("RoomNo")
-                        .HasConstraintName("FK__Appointme__Room___17F790F9");
+                        .HasConstraintName("FK__APPOINTME__Room___4F7CD00D")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.BillData", b =>
@@ -391,13 +392,13 @@ namespace Hospital_mgmt_WebApi.Migrations
                     b.HasOne("Hospital_mgmt_WebApi.Model.Doctor", "Doctor")
                         .WithMany("BillData")
                         .HasForeignKey("DoctorId")
-                        .HasConstraintName("FK__Bill_Data__Docto__114A936A")
+                        .HasConstraintName("FK__Bill_Data__Docto__4CA06362")
                         .IsRequired();
 
                     b.HasOne("Hospital_mgmt_WebApi.Model.Patient", "P")
                         .WithMany("BillData")
                         .HasForeignKey("Pid")
-                        .HasConstraintName("FK__Bill_Data__Pid__10566F31")
+                        .HasConstraintName("FK__Bill_Data__Pid__4BAC3F29")
                         .IsRequired();
                 });
 

@@ -11,62 +11,48 @@ namespace Hospital_mgmt_WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OutpatientsController : ControllerBase
+    public class RoomDatasController : ControllerBase
     {
         private readonly SprintOneTeam3Context _context;
 
-        public OutpatientsController(SprintOneTeam3Context context)
+        public RoomDatasController(SprintOneTeam3Context context)
         {
             _context = context;
         }
 
-        // GET: api/Outpatients
+        // GET: api/RoomDatas
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Outpatient>>> GetOutpatient()
+        public async Task<ActionResult<IEnumerable<RoomData>>> GetRoomData()
         {
-            return await _context.Outpatient.ToListAsync();
+            return await _context.RoomData.ToListAsync();
         }
 
-        // GET: api/Outpatients/5
+        // GET: api/RoomDatas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Outpatient>> GetOutpatient(string id)
+        public async Task<ActionResult<RoomData>> GetRoomData(string id)
         {
+            var roomData = await _context.RoomData.FindAsync(id);
 
-            var outpatient = await _context.Outpatient.FindAsync(id);
-
-            if (outpatient == null)
+            if (roomData == null)
             {
                 return NotFound();
             }
 
-            return outpatient;
+            return roomData;
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Outpatient>> GetOutpatient(string id)
-        //{
-        //    var outpatient = await _context.Outpatient.FindAsync(id);
-
-        //    if (outpatient == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return outpatient;
-        //}
-
-        // PUT: api/Outpatients/5
+        // PUT: api/RoomDatas/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOutpatient(string id, Outpatient outpatient)
+        public async Task<IActionResult> PutRoomData(string id, RoomData roomData)
         {
-            if (id != outpatient.Pid)
+            if (id != roomData.RoomNo)
             {
                 return BadRequest();
             }
 
-            _context.Entry(outpatient).State = EntityState.Modified;
+            _context.Entry(roomData).State = EntityState.Modified;
 
             try
             {
@@ -74,7 +60,7 @@ namespace Hospital_mgmt_WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OutpatientExists(id))
+                if (!RoomDataExists(id))
                 {
                     return NotFound();
                 }
@@ -87,20 +73,20 @@ namespace Hospital_mgmt_WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Outpatients
+        // POST: api/RoomDatas
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Outpatient>> PostOutpatient(Outpatient outpatient)
+        public async Task<ActionResult<RoomData>> PostRoomData(RoomData roomData)
         {
-            _context.Outpatient.Add(outpatient);
+            _context.RoomData.Add(roomData);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (OutpatientExists(outpatient.Pid))
+                if (RoomDataExists(roomData.RoomNo))
                 {
                     return Conflict();
                 }
@@ -110,28 +96,28 @@ namespace Hospital_mgmt_WebApi.Controllers
                 }
             }
 
-            return CreatedAtAction("GetOutpatient", new { id = outpatient.Pid }, outpatient);
+            return CreatedAtAction("GetRoomData", new { id = roomData.RoomNo }, roomData);
         }
 
-        // DELETE: api/Outpatients/5
+        // DELETE: api/RoomDatas/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Outpatient>> DeleteOutpatient(string id)
+        public async Task<ActionResult<RoomData>> DeleteRoomData(string id)
         {
-            var outpatient = await _context.Outpatient.FindAsync(id);
-            if (outpatient == null)
+            var roomData = await _context.RoomData.FindAsync(id);
+            if (roomData == null)
             {
                 return NotFound();
             }
 
-            _context.Outpatient.Remove(outpatient);
+            _context.RoomData.Remove(roomData);
             await _context.SaveChangesAsync();
 
-            return outpatient;
+            return roomData;
         }
 
-        private bool OutpatientExists(string id)
+        private bool RoomDataExists(string id)
         {
-            return _context.Outpatient.Any(e => e.Pid == id);
+            return _context.RoomData.Any(e => e.RoomNo == id);
         }
     }
 }

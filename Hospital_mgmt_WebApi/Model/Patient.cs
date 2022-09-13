@@ -11,8 +11,8 @@ namespace Hospital_mgmt_WebApi.Model
     {
         public Patient()
         {
-            BillData = new HashSet<BillData>();
-            Lab = new HashSet<Lab>();
+            //BillData = new HashSet<BillData>();
+            //Lab = new HashSet<Lab>();
         }
 
         public string Pid { get; set; }
@@ -25,8 +25,8 @@ namespace Hospital_mgmt_WebApi.Model
         public string Disease { get; set; }
         public string DoctorId { get; set; }
 
-        public virtual Doctor Doctor { get; set; }
-        public virtual ICollection<BillData> BillData { get; set; }
-        public virtual ICollection<Lab> Lab { get; set; }
+        //public virtual Doctor Doctor { get; set; }
+        //public virtual ICollection<BillData> BillData { get; set; }
+        //public virtual ICollection<Lab> Lab { get; set; }
     }
 }

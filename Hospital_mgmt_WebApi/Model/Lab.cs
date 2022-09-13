@@ -11,9 +11,9 @@ namespace Hospital_mgmt_WebApi.Model
     {
         public Lab()
         {
-            InPatient = new HashSet<InPatient>();
-            Outpatient = new HashSet<Outpatient>();
-            RoomData = new HashSet<RoomData>();
+            //InPatient = new HashSet<InPatient>();
+            //Outpatient = new HashSet<Outpatient>();
+            //RoomData = new HashSet<RoomData>();
         }
 
         public string LabId { get; set; }
@@ -23,10 +23,10 @@ namespace Hospital_mgmt_WebApi.Model
         public string TestType { get; set; }
         public string PatientType { get; set; }
 
-        public virtual Doctor Doctor { get; set; }
-        public virtual Patient P { get; set; }
-        public virtual ICollection<InPatient> InPatient { get; set; }
-        public virtual ICollection<Outpatient> Outpatient { get; set; }
-        public virtual ICollection<RoomData> RoomData { get; set; }
+        //public virtual Doctor Doctor { get; set; }
+        //public virtual Patient P { get; set; }
+        //public virtual ICollection<InPatient> InPatient { get; set; }
+        //public virtual ICollection<Outpatient> Outpatient { get; set; }
+        //public virtual ICollection<RoomData> RoomData { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using Hospital_mgmt_WebApi.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hospital_mgmt_WebApi.Migrations
 {
     [DbContext(typeof(SprintOneTeam3Context))]
-    partial class SprintOneTeam3ContextModelSnapshot : ModelSnapshot
+    [Migration("20220913081556_seventh")]
+    partial class seventh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

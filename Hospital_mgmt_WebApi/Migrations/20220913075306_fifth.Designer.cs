@@ -4,14 +4,16 @@ using Hospital_mgmt_WebApi.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hospital_mgmt_WebApi.Migrations
 {
     [DbContext(typeof(SprintOneTeam3Context))]
-    partial class SprintOneTeam3ContextModelSnapshot : ModelSnapshot
+    [Migration("20220913075306_fifth")]
+    partial class fifth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,15 +23,15 @@ namespace Hospital_mgmt_WebApi.Migrations
 
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.Appointment", b =>
                 {
-                    b.Property<DateTime?>("AdmissionDate")
-                        .HasColumnName("Admission Date")
-                        .HasColumnType("date");
-
                     b.Property<int>("AppointmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("Appointment_Id")
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("AdmissionDate")
+                        .HasColumnName("Admission Date")
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("DateOfVisit")
                         .HasColumnName("Date of Visit")
@@ -40,12 +42,14 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("DoctorName")
+                        .IsRequired()
                         .HasColumnName("Doctor_Name")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("Pid")
+                        .IsRequired()
                         .HasColumnType("varchar(10)")
                         .HasMaxLength(10)
                         .IsUnicode(false);
@@ -56,16 +60,19 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .IsUnicode(false);
 
                     b.Property<string>("RoomNo")
+                        .IsRequired()
                         .HasColumnName("Room_No")
                         .HasColumnType("varchar(10)")
                         .HasMaxLength(10)
                         .IsUnicode(false);
 
+                    b.HasKey("AppointmentId");
+
                     b.HasIndex("Pid");
 
                     b.HasIndex("RoomNo");
 
-                    b.ToTable("Appointment");
+                    b.ToTable("APPOINTMENT");
                 });
 
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.BillData", b =>
@@ -245,9 +252,10 @@ namespace Hospital_mgmt_WebApi.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("TestType")
+                        .IsRequired()
                         .HasColumnName("Test_Type")
-                        .HasColumnType("varchar(25)")
-                        .HasMaxLength(25)
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(10)
                         .IsUnicode(false);
 
                     b.HasKey("LabId");
@@ -376,14 +384,16 @@ namespace Hospital_mgmt_WebApi.Migrations
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.Appointment", b =>
                 {
                     b.HasOne("Hospital_mgmt_WebApi.Model.Patient", "P")
-                        .WithMany()
+                        .WithMany("Appointment")
                         .HasForeignKey("Pid")
-                        .HasConstraintName("FK__Appointment__Pid__17036CC0");
+                        .HasConstraintName("FK__APPOINTMENT__Pid__4E88ABD4")
+                        .IsRequired();
 
                     b.HasOne("Hospital_mgmt_WebApi.Model.RoomData", "RoomNoNavigation")
-                        .WithMany()
+                        .WithMany("Appointment")
                         .HasForeignKey("RoomNo")
-                        .HasConstraintName("FK__Appointme__Room___17F790F9");
+                        .HasConstraintName("FK__APPOINTME__Room___4F7CD00D")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hospital_mgmt_WebApi.Model.BillData", b =>

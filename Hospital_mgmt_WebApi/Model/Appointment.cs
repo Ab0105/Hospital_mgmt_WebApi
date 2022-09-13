@@ -18,7 +18,7 @@ namespace Hospital_mgmt_WebApi.Model
         public DateTime? DischargeDate { get; set; }
         public string Remarks { get; set; }
 
-        public virtual Patient P { get; set; }
-        public virtual RoomData RoomNoNavigation { get; set; }
+        //public virtual Patient P { get; set; }
+        //public virtual RoomData RoomNoNavigation { get; set; }
     }
 }

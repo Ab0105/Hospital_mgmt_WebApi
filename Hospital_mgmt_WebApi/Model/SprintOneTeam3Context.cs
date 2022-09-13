@@ -43,8 +43,6 @@ namespace Hospital_mgmt_WebApi.Model
             {
                 entity.HasNoKey();
 
-                entity.ToTable("APPOINTMENT");
-
                 entity.Property(e => e.AdmissionDate)
                     .HasColumnName("Admission Date")
                     .HasColumnType("date");
@@ -62,13 +60,11 @@ namespace Hospital_mgmt_WebApi.Model
                     .HasColumnType("date");
 
                 entity.Property(e => e.DoctorName)
-                    .IsRequired()
                     .HasColumnName("Doctor_Name")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Pid)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
@@ -77,54 +73,57 @@ namespace Hospital_mgmt_WebApi.Model
                     .IsUnicode(false);
 
                 entity.Property(e => e.RoomNo)
-                    .IsRequired()
                     .HasColumnName("Room_No")
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.P)
-                    .WithMany()
-                    .HasForeignKey(d => d.Pid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__APPOINTMENT__Pid__4E88ABD4");
+                //entity.HasOne(d => d.P)
+                //    .WithMany()
+                //    .HasForeignKey(d => d.Pid)
+                //    .HasConstraintName("FK__Appointment__Pid__17036CC0");
 
-                entity.HasOne(d => d.RoomNoNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.RoomNo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__APPOINTME__Room___4F7CD00D");
+                //entity.HasOne(d => d.RoomNoNavigation)
+                //    .WithMany()
+                //    .HasForeignKey(d => d.RoomNo)
+                //    .HasConstraintName("FK__Appointme__Room___17F790F9");
             });
 
             modelBuilder.Entity<BillData>(entity =>
             {
                 entity.HasKey(e => e.BillNo)
-                    .HasName("PK__Bill_Dat__CF6FA49F09167DB9");
+                    .HasName("PK__Bill_Dat__CF6FA49F05935736");
 
                 entity.ToTable("Bill_Data");
 
-                entity.Property(e => e.BillNo)
-                    .HasColumnName("Bill_No")
-                    .HasMaxLength(1)
-                    .IsUnicode(false);
+                entity.Property(e => e.BillNo).HasColumnName("Bill_No");
 
-                entity.Property(e => e.DoctorFees).HasColumnName("Doctor_Fees");
+                entity.Property(e => e.DoctorFees)
+                    .HasColumnName("Doctor_Fees")
+                    .HasColumnType("numeric(18, 0)");
 
                 entity.Property(e => e.DoctorId)
                     .IsRequired()
-                    .HasColumnName("Doctor_id")
+                    .HasColumnName("Doctor_Id")
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.LabFees).HasColumnName("Lab_Fees");
+                entity.Property(e => e.LabFees)
+                    .HasColumnName("Lab_Fees")
+                    .HasColumnType("numeric(18, 0)")
+                    .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.MedicineFees).HasColumnName("Medicine_Fees");
+                entity.Property(e => e.MedicineFees)
+                    .HasColumnName("Medicine_Fees")
+                    .HasColumnType("numeric(18, 0)");
 
-                entity.Property(e => e.OperationCharge).HasColumnName("Operation_Charge");
+                entity.Property(e => e.OperationCharges)
+                    .HasColumnName("Operation_Charges")
+                    .HasColumnType("numeric(18, 0)")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.PatientType)
-                    .IsRequired()
                     .HasColumnName("Patient_Type")
-                    .HasMaxLength(1)
+                    .HasMaxLength(10)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Pid)
@@ -132,23 +131,31 @@ namespace Hospital_mgmt_WebApi.Model
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RoomCharge).HasColumnName("Room_Charge");
+                entity.Property(e => e.RoomCharges)
+                    .HasColumnName("Room_Charges")
+                    .HasColumnType("numeric(18, 0)")
+                    .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.TotalAmount).HasColumnName("Total_amount");
+                entity.Property(e => e.TotalAmount)
+                    .HasColumnName("Total_Amount")
+                    .HasColumnType("numeric(33, 0)")
+                    .HasComputedColumnSql("(((([Doctor_Fees]+[Room_Charges]*[Total_days])+[Operation_Charges])+[Medicine_Fees])+[Lab_Fees])");
 
-                entity.Property(e => e.TotalDays).HasColumnName("Total_Days");
+                entity.Property(e => e.TotalDays)
+                    .HasColumnName("Total_days")
+                    .HasDefaultValueSql("((0))");
 
                 //entity.HasOne(d => d.Doctor)
                 //    .WithMany(p => p.BillData)
                 //    .HasForeignKey(d => d.DoctorId)
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("FK__Bill_Data__Docto__4CA06362");
+                //    .HasConstraintName("FK__Bill_Data__Docto__114A936A");
 
-                entity.HasOne(d => d.P)
-                    .WithMany(p => p.BillData)
-                    .HasForeignKey(d => d.Pid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Bill_Data__Pid__4BAC3F29");
+                //entity.HasOne(d => d.P)
+                //    .WithMany(p => p.BillData)
+                //    .HasForeignKey(d => d.Pid)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__Bill_Data__Pid__10566F31");
             });
 
             modelBuilder.Entity<Doctor>(entity =>
@@ -210,16 +217,16 @@ namespace Hospital_mgmt_WebApi.Model
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("FK__InPatient__Docto__440B1D61");
 
-                entity.HasOne(d => d.Lab)
-                    .WithMany(p => p.InPatient)
-                    .HasForeignKey(d => d.LabId)
-                    .HasConstraintName("FK__InPatient__Lab_i__44FF419A");
+                //entity.HasOne(d => d.Lab)
+                //    .WithMany(p => p.InPatient)
+                //    .HasForeignKey(d => d.LabId)
+                //    .HasConstraintName("FK__InPatient__Lab_i__44FF419A");
 
-                entity.HasOne(d => d.RoomNoNavigation)
-                    .WithMany(p => p.InPatient)
-                    .HasForeignKey(d => d.RoomNo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__InPatient__Room___4316F928");
+                //entity.HasOne(d => d.RoomNoNavigation)
+                //    .WithMany(p => p.InPatient)
+                //    .HasForeignKey(d => d.RoomNo)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__InPatient__Room___4316F928");
             });
 
             modelBuilder.Entity<Lab>(entity =>
@@ -248,9 +255,8 @@ namespace Hospital_mgmt_WebApi.Model
                     .HasColumnType("date");
 
                 entity.Property(e => e.TestType)
-                    .IsRequired()
                     .HasColumnName("Test_Type")
-                    .HasMaxLength(10)
+                    .HasMaxLength(25)
                     .IsUnicode(false);
 
                 //entity.HasOne(d => d.Doctor)
@@ -258,10 +264,10 @@ namespace Hospital_mgmt_WebApi.Model
                 //    .HasForeignKey(d => d.DoctorId)
                 //    .HasConstraintName("FK__Lab__Doctor_id__3C69FB99");
 
-                entity.HasOne(d => d.P)
-                    .WithMany(p => p.Lab)
-                    .HasForeignKey(d => d.Pid)
-                    .HasConstraintName("FK__Lab__Pid__3B75D760");
+                //entity.HasOne(d => d.P)
+                //    .WithMany(p => p.Lab)
+                //    .HasForeignKey(d => d.Pid)
+                //    .HasConstraintName("FK__Lab__Pid__3B75D760");
             });
 
             modelBuilder.Entity<Outpatient>(entity =>
@@ -373,10 +379,10 @@ namespace Hospital_mgmt_WebApi.Model
                 //    .HasForeignKey(d => d.DoctorId)
                 //    .HasConstraintName("FK__Room_Data__Docto__403A8C7D");
 
-                entity.HasOne(d => d.Lab)
-                    .WithMany(p => p.RoomData)
-                    .HasForeignKey(d => d.LabId)
-                    .HasConstraintName("FK__Room_Data__Lab_i__3F466844");
+                //entity.HasOne(d => d.Lab)
+                //    .WithMany(p => p.RoomData)
+                //    .HasForeignKey(d => d.LabId)
+                //    .HasConstraintName("FK__Room_Data__Lab_i__3F466844");
             });
 
             OnModelCreatingPartial(modelBuilder);
